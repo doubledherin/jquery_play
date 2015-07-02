@@ -1,26 +1,30 @@
 (function($) {
+	var ajaxCall = function(url, data, callback) {
+		return $.ajax({
+			url: "http://api.dribbble.com" + url,
+			dataType: "jsonp",
+			data: data
+		}).done(callback);
+	};
+
 	$.dribbble = {
-		getShot: function(id, callback) {
-			var req = $.ajax({
-				url: "http://api.dribbble.com/shots/" + id,
-				dataType: "jsonp"
-			});
-			req.done(callback);
+		getShot: function(params) {
+			id = params.id,
+			callback = params.callback,	
+			ajaxCall("/shots/" + id, {}, callback);
+			debugger;
 		},
-		getShots: function(limit, callback) {
-			if($.isFunction(limit)) {
-				callback = limit;
-				limit = 10;
-			}
-			var req = $.ajax({
-				url: "http://api.dribbble.com/shots/everyone",
-				data: {
-					page: 1, 
-					per_page: limit
-				},
-				dataType: "jsonp"
-			});
-			req.done(callback);
+		getShots: function(opts) {
+			var settings = {
+				callback: function() {},
+				per_page: 10,
+				page: 1
+			};
+			var options = $.extend({}, settings, opts);
+			ajaxCall("/shots/everyone", {
+				page: options.page,
+				per_page: options.per_page
+			}, options.callback)
 		}
 	};
 }) (jQuery);
