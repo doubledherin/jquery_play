@@ -8,7 +8,7 @@
 // });
 
 $(function() {
-	$.dribbble.getPlayerShots({
+	$.dribbble.getPlayerShotsFollowing({
 		id: "mariagroenlund",
 		callback: function(data) {
 			console.log(data);

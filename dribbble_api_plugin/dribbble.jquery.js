@@ -31,6 +31,10 @@
 		getPlayerShots: function(opts) {
 			var options = $.extend({}, baseSettings, opts);
 			ajaxCall("/players/" + options.id + "/shots", options, true);
+		},
+		getPlayerShotsFollowing: function(opts) {
+			var options = $.extend({}, baseSettings, opts);
+			ajaxCall("/players/" + options.id + "/shots/following", options, true);			
 		}
 	};
 }) (jQuery);
