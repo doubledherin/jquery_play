@@ -12,7 +12,6 @@
 			id = params.id,
 			callback = params.callback,	
 			ajaxCall("/shots/" + id, {}, callback);
-			debugger;
 		},
 		getShots: function(opts) {
 			var settings = {
