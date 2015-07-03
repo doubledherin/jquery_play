@@ -1,44 +1,36 @@
 (function($) {
-	var ajaxCall = function(url, data, callback) {
+
+	var baseSettings = {
+		callback: function() {},
+		per_page: 10,
+		page: 1,
+		id: ""
+	}
+	var ajaxCall = function(url, options, pagination) {
+		var data = {};
+		if(pagination) {
+			data.page = options.page
+			data.per_page = options.per_page
+		}
 		return $.ajax({
 			url: "http://api.dribbble.com" + url,
 			dataType: "jsonp",
 			data: data
-		}).done(callback);
+		}).done(options.callback);
 	};
 
 	$.dribbble = {
 		getShot: function(opts) {
-			var settings = {
-				callback: function() {}
-			};
-			var options = $.extend({}, settings, opts);
-			ajaxCall("/shots/" + options.id, {}, options.callback);
+			var options = $.extend({}, baseSettings, opts);
+			ajaxCall("/shots/" + options.id, options, false);
 		},
 		getShots: function(opts) {
-			var settings = {
-				callback: function() {},
-				per_page: 10,
-				page: 1
-			};
-			var options = $.extend({}, settings, opts);
-			ajaxCall("/shots/everyone", {
-				page: options.page,
-				per_page: options.per_page
-			}, options.callback)
+			var options = $.extend({}, baseSettings, opts);
+			ajaxCall("/shots/everyone", options, true);
 		},
 		getPlayerShots: function(opts) {
-			var settings = {
-				player: "sturobson",
-				callback: function() {},
-				per_page: 10,
-				page: 1
-			};
-			var options = $.extend({}, settings, opts);
-			ajaxCall("/players/" + options.player + "/shots", {
-				page: options.page,
-				per_page: options.per_page
-			}, options.callback)
+			var options = $.extend({}, baseSettings, opts);
+			ajaxCall("/players/" + options.id + "/shots", options, true);
 		}
 	};
 }) (jQuery);

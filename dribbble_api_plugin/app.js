@@ -9,7 +9,7 @@
 
 $(function() {
 	$.dribbble.getPlayerShots({
-		player: "mariagroenlund",
+		id: "mariagroenlund",
 		callback: function(data) {
 			console.log(data);
 		}
