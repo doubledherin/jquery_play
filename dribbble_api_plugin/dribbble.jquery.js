@@ -8,10 +8,12 @@
 	};
 
 	$.dribbble = {
-		getShot: function(params) {
-			id = params.id,
-			callback = params.callback,	
-			ajaxCall("/shots/" + id, {}, callback);
+		getShot: function(opts) {
+			var settings = {
+				callback: function() {}
+			};
+			var options = $.extend({}, settings, opts);
+			ajaxCall("/shots/" + options.id, {}, options.callback);
 		},
 		getShots: function(opts) {
 			var settings = {
@@ -21,6 +23,19 @@
 			};
 			var options = $.extend({}, settings, opts);
 			ajaxCall("/shots/everyone", {
+				page: options.page,
+				per_page: options.per_page
+			}, options.callback)
+		},
+		getPlayerShots: function(opts) {
+			var settings = {
+				player: "sturobson",
+				callback: function() {},
+				per_page: 10,
+				page: 1
+			};
+			var options = $.extend({}, settings, opts);
+			ajaxCall("/players/" + options.player + "/shots", {
 				page: options.page,
 				per_page: options.per_page
 			}, options.callback)
